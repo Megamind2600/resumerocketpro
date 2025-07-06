@@ -59,21 +59,11 @@ app.use((req, res, next) => {
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-  const port = Number(process.env.PORT) || 5000;
-  
+  const port = process.env.PORT || 3000;
   // Try different binding approaches for better compatibility
-  if (process.env.NODE_ENV === "production") {
-    // For production/local builds, try localhost first
-    server.listen(port, 'localhost', () => {
-      log(`serving on localhost:${port}`);
-    }).on('error', (err: any) => {
-      console.error('Failed to start server:', err);
-      console.log('Try running with: HOST=127.0.0.1 PORT=3000 npm start');
-    });
-  } else {
-    // For development (Replit), use 0.0.0.0
-    server.listen(port, '0.0.0.0', () => {
-      log(`serving on 0.0.0.0:${port}`);
-    });
+server.listen(port, '0.0.0.0', () => {
+  log(`✅ Server running on http://0.0.0.0:${port}`);
+});
+
   }
-})();
+)();
