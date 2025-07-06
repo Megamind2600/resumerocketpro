@@ -90,12 +90,7 @@ export class DatabaseStorage implements IStorage {
     const { db } = await import("./db");
     const [analysis] = await db
       .insert(resumeAnalysis)
-      .values({
-        ...insertAnalysis,
-        suggestedRoles: Array.isArray(insertAnalysis.suggestedRoles) ? insertAnalysis.suggestedRoles : [],
-        skills: Array.isArray(insertAnalysis.skills) ? insertAnalysis.skills : [],
-        industries: Array.isArray(insertAnalysis.industries) ? insertAnalysis.industries : [],
-      })
+      .values(insertAnalysis as any)
       .returning();
     return analysis;
   }
@@ -110,10 +105,7 @@ export class DatabaseStorage implements IStorage {
     const { db } = await import("./db");
     const [optimization] = await db
       .insert(jobOptimizations)
-      .values({
-        ...insertOptimization,
-        missingSkills: Array.isArray(insertOptimization.missingSkills) ? insertOptimization.missingSkills : [],
-      })
+      .values(insertOptimization as any)
       .returning();
     return optimization;
   }
@@ -214,11 +206,11 @@ export class MemStorage implements IStorage {
     const analysis: ResumeAnalysis = {
       id: this.currentAnalysisId++,
       resumeId: insertAnalysis.resumeId ?? null,
-      suggestedRoles: Array.isArray(insertAnalysis.suggestedRoles) ? insertAnalysis.suggestedRoles : [],
-      skills: Array.isArray(insertAnalysis.skills) ? insertAnalysis.skills : [],
+      suggestedRoles: insertAnalysis.suggestedRoles as string[],
+      skills: insertAnalysis.skills as string[],
       experienceLevel: insertAnalysis.experienceLevel,
       location: insertAnalysis.location ?? null,
-      industries: Array.isArray(insertAnalysis.industries) ? insertAnalysis.industries : [],
+      industries: insertAnalysis.industries as string[],
       createdAt: new Date(),
     };
     this.resumeAnalyses.set(analysis.id, analysis);
@@ -237,7 +229,7 @@ export class MemStorage implements IStorage {
       companyName: insertOptimization.companyName,
       jobTitle: insertOptimization.jobTitle,
       matchScore: insertOptimization.matchScore,
-      missingSkills: Array.isArray(insertOptimization.missingSkills) ? insertOptimization.missingSkills : [],
+      missingSkills: insertOptimization.missingSkills as string[],
       optimizedResume: insertOptimization.optimizedResume,
       coverLetter: insertOptimization.coverLetter,
       createdAt: new Date(),
