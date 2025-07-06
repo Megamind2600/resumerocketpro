@@ -72,6 +72,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         experienceLevel: analysis.experienceLevel,
         location: analysis.location,
         industries: analysis.industries,
+        explanation: analysis.explanation,
       });
 
       // Clean up uploaded file

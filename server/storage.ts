@@ -211,6 +211,7 @@ export class MemStorage implements IStorage {
       experienceLevel: insertAnalysis.experienceLevel,
       location: insertAnalysis.location ?? null,
       industries: insertAnalysis.industries as string[],
+      explanation: insertAnalysis.explanation,
       createdAt: new Date(),
     };
     this.resumeAnalyses.set(analysis.id, analysis);
@@ -275,4 +276,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+export const storage = new MemStorage();

@@ -26,6 +26,7 @@ export const resumeAnalysis = pgTable("resume_analysis", {
   experienceLevel: text("experience_level").notNull(),
   location: text("location"),
   industries: json("industries").$type<string[]>().notNull(),
+  explanation: text("explanation").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

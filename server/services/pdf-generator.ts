@@ -8,20 +8,61 @@ export async function generatePDFDocuments(content: DocumentContent): Promise<{
   resumePDF: Buffer;
   coverLetterPDF: Buffer;
 }> {
-  // For production, you would use pdf-lib or puppeteer here
-  // This is a simplified implementation for demo purposes
-  
-  const resumeHTML = generateResumeHTML(content.resumeText, content.includeWatermark);
-  const coverLetterHTML = generateCoverLetterHTML(content.coverLetter, content.includeWatermark);
-  
-  // Simulate PDF generation
-  const resumePDF = Buffer.from(resumeHTML, 'utf8');
-  const coverLetterPDF = Buffer.from(coverLetterHTML, 'utf8');
-  
-  return {
-    resumePDF,
-    coverLetterPDF,
-  };
+  try {
+    const puppeteer = await import('puppeteer');
+    const browser = await puppeteer.default.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    
+    const resumeHTML = generateResumeHTML(content.resumeText, content.includeWatermark);
+    const coverLetterHTML = generateCoverLetterHTML(content.coverLetter, content.includeWatermark);
+    
+    // Generate Resume PDF
+    const resumePage = await browser.newPage();
+    await resumePage.setContent(resumeHTML);
+    const resumePDF = await resumePage.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        top: '20px',
+        bottom: '20px',
+        left: '20px',
+        right: '20px'
+      }
+    });
+    
+    // Generate Cover Letter PDF
+    const coverPage = await browser.newPage();
+    await coverPage.setContent(coverLetterHTML);
+    const coverLetterPDF = await coverPage.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        top: '20px',
+        bottom: '20px',
+        left: '20px',
+        right: '20px'
+      }
+    });
+    
+    await browser.close();
+    
+    return {
+      resumePDF: Buffer.from(resumePDF),
+      coverLetterPDF: Buffer.from(coverLetterPDF),
+    };
+  } catch (error) {
+    console.error('PDF generation failed:', error);
+    // Fallback to HTML if PDF generation fails
+    const resumeHTML = generateResumeHTML(content.resumeText, content.includeWatermark);
+    const coverLetterHTML = generateCoverLetterHTML(content.coverLetter, content.includeWatermark);
+    
+    return {
+      resumePDF: Buffer.from(resumeHTML, 'utf8'),
+      coverLetterPDF: Buffer.from(coverLetterHTML, 'utf8'),
+    };
+  }
 }
 
 function generateResumeHTML(content: string, includeWatermark: boolean): string {

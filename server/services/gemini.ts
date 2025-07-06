@@ -13,6 +13,7 @@ export interface RoleAnalysis {
   experienceLevel: string;
   location: string;
   industries: string[];
+  explanation: string;
 }
 
 export interface JobMatch {
@@ -36,6 +37,7 @@ export async function analyzeResumeForRoles(resumeText: string): Promise<RoleAna
 3. Experience level (Junior, Mid-level, Senior, Executive)
 4. Likely location preferences
 5. Industry focus areas
+6. A detailed explanation of why these roles suit the candidate's profile
 
 Resume:
 """${resumeText}"""
@@ -72,9 +74,10 @@ Respond with JSON only.`;
             industries: {
               type: "array",
               items: { type: "string" }
-            }
+            },
+            explanation: { type: "string" }
           },
-          required: ["roles", "skills", "experienceLevel", "location", "industries"]
+          required: ["roles", "skills", "experienceLevel", "location", "industries", "explanation"]
         }
       },
       contents: prompt,

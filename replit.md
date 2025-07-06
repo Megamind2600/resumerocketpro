@@ -107,3 +107,10 @@ Changelog:
   - Created DatabaseStorage class replacing in-memory storage
   - Successfully migrated database schema with all required tables
   - Updated storage layer to use real database persistence
+- July 06, 2025. Major fixes and improvements based on user feedback
+  - Fixed PDF generation using Puppeteer for proper PDF downloads instead of corrupted files
+  - Switched back to in-memory storage (MemStorage) instead of database
+  - Added AI explanation field to role suggestions with detailed reasoning
+  - Added AI processing time remarks across all AI-powered buttons
+  - Updated database schema to include explanation field for resume analysis
+  - Fixed TypeScript compilation errors in storage operations

@@ -202,6 +202,11 @@ export default function FileUpload({ onFileUploaded, isLoading }: FileUploadProp
             )}
           </div>
 
+          <div className="text-xs text-neutral-500 text-center mb-4 bg-blue-50 p-3 rounded-lg border border-blue-200">
+            <i className="fas fa-info-circle mr-1 text-blue-600"></i>
+            <span className="text-blue-700 font-medium">AI Processing:</span> This might take a few seconds for AI to work its magic.
+          </div>
+
           <Button
             onClick={handleUpload}
             disabled={!selectedFile || !email || isLoading}

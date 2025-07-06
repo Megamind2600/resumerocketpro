@@ -21,6 +21,7 @@ interface ResumeData {
     experienceLevel: string;
     location: string;
     industries: string[];
+    explanation: string;
   };
 }
 
@@ -147,6 +148,11 @@ export default function RoleSuggestions() {
                 ))}
               </div>
 
+              <div className="text-xs text-neutral-500 text-center mb-4 bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <i className="fas fa-info-circle mr-1 text-blue-600"></i>
+                <span className="text-blue-700 font-medium">AI Processing:</span> This might take a few seconds for AI to work its magic.
+              </div>
+
               <Button 
                 onClick={handleGenerateJobLinks}
                 disabled={selectedRoles.length === 0 || isLoading}
@@ -226,6 +232,23 @@ export default function RoleSuggestions() {
                     ))}
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* AI Explanation Section */}
+        <div className="mt-8">
+          <Card>
+            <CardContent className="p-8">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center">
+                <i className="fas fa-robot text-primary mr-3"></i>
+                Why These Roles Suit Your Profile
+              </h3>
+              <div className="prose prose-neutral max-w-none">
+                <p className="text-neutral-700 leading-relaxed whitespace-pre-wrap">
+                  {resumeData.analysis.explanation || "AI analysis explanation will appear here after role analysis is complete."}
+                </p>
               </div>
             </CardContent>
           </Card>
