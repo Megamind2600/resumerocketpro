@@ -76,7 +76,7 @@ The application uses five main tables:
 ### Development Environment
 - Vite development server with HMR
 - Express server with automatic restart
-- In-memory storage fallback for database operations
+- PostgreSQL database with Drizzle ORM for data persistence
 - Environment variables for API keys and database connections
 
 ### Production Build
@@ -103,3 +103,7 @@ Changelog:
   - Added pdf-parse and mammoth libraries for actual PDF and DOCX text extraction
   - Enhanced error handling and logging in AI service functions
   - Resolved TypeScript compilation errors in storage layer
+- July 06, 2025. Integrated PostgreSQL database with Drizzle ORM
+  - Created DatabaseStorage class replacing in-memory storage
+  - Successfully migrated database schema with all required tables
+  - Updated storage layer to use real database persistence

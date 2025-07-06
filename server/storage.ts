@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import {
   users,
   resumes,
@@ -14,7 +15,7 @@ import {
   type InsertResumeAnalysis,
   type InsertJobOptimization,
   type InsertPayment,
-} from "@shared/schema";
+} from "../shared/schema";
 
 export interface IStorage {
   // User operations
@@ -41,6 +42,123 @@ export interface IStorage {
   getPayment(id: number): Promise<Payment | undefined>;
   updatePaymentStatus(id: number, status: string): Promise<Payment>;
   getPaymentByOptimizationId(optimizationId: number): Promise<Payment | undefined>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const { db } = await import("./db");
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const { db } = await import("./db");
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const { db } = await import("./db");
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async createResume(insertResume: InsertResume): Promise<Resume> {
+    const { db } = await import("./db");
+    const [resume] = await db
+      .insert(resumes)
+      .values(insertResume)
+      .returning();
+    return resume;
+  }
+
+  async getResume(id: number): Promise<Resume | undefined> {
+    const { db } = await import("./db");
+    const [resume] = await db.select().from(resumes).where(eq(resumes.id, id));
+    return resume || undefined;
+  }
+
+  async getResumesByUserId(userId: number): Promise<Resume[]> {
+    const { db } = await import("./db");
+    return await db.select().from(resumes).where(eq(resumes.userId, userId));
+  }
+
+  async createResumeAnalysis(insertAnalysis: InsertResumeAnalysis): Promise<ResumeAnalysis> {
+    const { db } = await import("./db");
+    const [analysis] = await db
+      .insert(resumeAnalysis)
+      .values({
+        ...insertAnalysis,
+        suggestedRoles: Array.isArray(insertAnalysis.suggestedRoles) ? insertAnalysis.suggestedRoles : [],
+        skills: Array.isArray(insertAnalysis.skills) ? insertAnalysis.skills : [],
+        industries: Array.isArray(insertAnalysis.industries) ? insertAnalysis.industries : [],
+      })
+      .returning();
+    return analysis;
+  }
+
+  async getResumeAnalysis(resumeId: number): Promise<ResumeAnalysis | undefined> {
+    const { db } = await import("./db");
+    const [analysis] = await db.select().from(resumeAnalysis).where(eq(resumeAnalysis.resumeId, resumeId));
+    return analysis || undefined;
+  }
+
+  async createJobOptimization(insertOptimization: InsertJobOptimization): Promise<JobOptimization> {
+    const { db } = await import("./db");
+    const [optimization] = await db
+      .insert(jobOptimizations)
+      .values({
+        ...insertOptimization,
+        missingSkills: Array.isArray(insertOptimization.missingSkills) ? insertOptimization.missingSkills : [],
+      })
+      .returning();
+    return optimization;
+  }
+
+  async getJobOptimization(id: number): Promise<JobOptimization | undefined> {
+    const { db } = await import("./db");
+    const [optimization] = await db.select().from(jobOptimizations).where(eq(jobOptimizations.id, id));
+    return optimization || undefined;
+  }
+
+  async getJobOptimizationsByResumeId(resumeId: number): Promise<JobOptimization[]> {
+    const { db } = await import("./db");
+    return await db.select().from(jobOptimizations).where(eq(jobOptimizations.resumeId, resumeId));
+  }
+
+  async createPayment(insertPayment: InsertPayment): Promise<Payment> {
+    const { db } = await import("./db");
+    const [payment] = await db
+      .insert(payments)
+      .values(insertPayment)
+      .returning();
+    return payment;
+  }
+
+  async getPayment(id: number): Promise<Payment | undefined> {
+    const { db } = await import("./db");
+    const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+    return payment || undefined;
+  }
+
+  async updatePaymentStatus(id: number, status: string): Promise<Payment> {
+    const { db } = await import("./db");
+    const [payment] = await db
+      .update(payments)
+      .set({ status })
+      .where(eq(payments.id, id))
+      .returning();
+    return payment;
+  }
+
+  async getPaymentByOptimizationId(optimizationId: number): Promise<Payment | undefined> {
+    const { db } = await import("./db");
+    const [payment] = await db.select().from(payments).where(eq(payments.optimizationId, optimizationId));
+    return payment || undefined;
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -165,4 +283,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
