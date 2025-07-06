@@ -2,7 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { promisify } from "util";
 
+
 const readFile = promisify(fs.readFile);
+
 
 export interface ProcessedFile {
   text: string;
@@ -19,8 +21,12 @@ export async function extractTextFromFile(filePath: string, fileName: string): P
   let text = "";
   let mimeType = "";
 
+
+
   try {
     if (ext === '.pdf') {
+console.log("🔍 Trying to open file at:", filePath);
+
       mimeType = 'application/pdf';
       try {
         const pdfParse = (await import('pdf-parse')).default;
@@ -28,6 +34,7 @@ export async function extractTextFromFile(filePath: string, fileName: string): P
         const data = await pdfParse(dataBuffer);
         text = data.text;
         console.log('📄 PDF text extracted:', text.length, 'characters');
+	   console.log('🧾 Sample extracted text:\n', text.slice(0, 300));
         
         // If PDF extraction fails or text is empty, use fallback
         if (!text || text.trim().length < 50) {
@@ -39,6 +46,7 @@ export async function extractTextFromFile(filePath: string, fileName: string): P
         text = await simulatePDFExtraction(fileName);
       }
     } else if (ext === '.docx') {
+	console.log("🔍 Trying to open file at:", filePath);
       mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       try {
         const mammoth = await import('mammoth');
