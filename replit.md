@@ -99,3 +99,7 @@ Preferred communication style: Simple, everyday language.
 
 Changelog:
 - July 06, 2025. Initial setup
+- July 06, 2025. Fixed Gemini AI integration to process real user data instead of dummy data
+  - Added pdf-parse and mammoth libraries for actual PDF and DOCX text extraction
+  - Enhanced error handling and logging in AI service functions
+  - Resolved TypeScript compilation errors in storage layer

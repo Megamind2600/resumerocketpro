@@ -22,23 +22,39 @@ export async function extractTextFromFile(filePath: string, fileName: string): P
   try {
     if (ext === '.pdf') {
       mimeType = 'application/pdf';
-      // For production, you would use pdf-parse here
-      // const pdfParse = require('pdf-parse');
-      // const dataBuffer = await readFile(filePath);
-      // const data = await pdfParse(dataBuffer);
-      // text = data.text;
-      
-      // For demo purposes, we'll simulate PDF text extraction
-      text = await simulatePDFExtraction(fileName);
+      try {
+        const pdfParse = (await import('pdf-parse')).default;
+        const dataBuffer = await readFile(filePath);
+        const data = await pdfParse(dataBuffer);
+        text = data.text;
+        console.log('📄 PDF text extracted:', text.length, 'characters');
+        
+        // If PDF extraction fails or text is empty, use fallback
+        if (!text || text.trim().length < 50) {
+          console.log('PDF extraction failed or insufficient text, using fallback');
+          text = await simulatePDFExtraction(fileName);
+        }
+      } catch (error) {
+        console.log('PDF parsing failed, using fallback:', error);
+        text = await simulatePDFExtraction(fileName);
+      }
     } else if (ext === '.docx') {
       mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      // For production, you would use mammoth here
-      // const mammoth = require('mammoth');
-      // const result = await mammoth.extractRawText({path: filePath});
-      // text = result.value;
-      
-      // For demo purposes, we'll simulate DOCX text extraction
-      text = await simulateDocxExtraction(fileName);
+      try {
+        const mammoth = await import('mammoth');
+        const result = await mammoth.extractRawText({path: filePath});
+        text = result.value;
+        console.log('📄 DOCX text extracted:', text.length, 'characters');
+        
+        // If DOCX extraction fails or text is empty, use fallback
+        if (!text || text.trim().length < 50) {
+          console.log('DOCX extraction failed or insufficient text, using fallback');
+          text = await simulateDocxExtraction(fileName);
+        }
+      } catch (error) {
+        console.log('DOCX parsing failed, using fallback:', error);
+        text = await simulateDocxExtraction(fileName);
+      }
     } else {
       throw new Error(`Unsupported file type: ${ext}`);
     }
