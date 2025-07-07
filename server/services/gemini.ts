@@ -37,7 +37,7 @@ export async function analyzeResumeForRoles(resumeText: string): Promise<RoleAna
 3. Experience level (Junior, Mid-level, Senior, Executive)
 4. Likely location preferences
 5. Industry focus areas
-6. A detailed explanation of why these roles suit the candidate's profile
+6. A 1 liner explanation of why these roles suit the candidate's profile
 
 Resume:
 """${resumeText}"""
