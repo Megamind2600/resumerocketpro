@@ -58,25 +58,25 @@ function Router() {
             </div>
             
             <div>
-              <h4 className="font-semibold text-neutral-800 mb-3">Product</h4>
+              <h4 className="font-semibold text-neutral-800 mb-3"></h4>
               <ul className="text-sm text-neutral-600 space-y-2">
-                <li><a href="#" className="hover:text-primary">Features</a></li>
-                <li><a href="#" className="hover:text-primary">Pricing</a></li>
-                <li><a href="#" className="hover:text-primary">Templates</a></li>
+                <li><a href="#" className="hover:text-primary"></a></li>
+                <li><a href="#" className="hover:text-primary"></a></li>
+                <li><a href="#" className="hover:text-primary"></a></li>
               </ul>
             </div>
             
             <div>
               <h4 className="font-semibold text-neutral-800 mb-3">Support</h4>
               <ul className="text-sm text-neutral-600 space-y-2">
-                <li><a href="#" className="hover:text-primary">Help Center</a></li>
-                <li><a href="#" className="hover:text-primary">Contact Us</a></li>
-                <li><a href="#" className="hover:text-primary">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-primary">email:</a></li>
+                <li><a href="#" className="hover:text-primary">ashuderkar@gmail.com</a></li>
+                <li><a href="#" className="hover:text-primary"></a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-semibold text-neutral-800 mb-3">Connect</h4>
+              <h4 className="font-semibold text-neutral-800 mb-3"></h4>
               <div className="flex space-x-4">
                 <a href="#" className="text-neutral-400 hover:text-primary">
                   <i className="fab fa-twitter"></i>
@@ -92,7 +92,7 @@ function Router() {
           </div>
           
           <div className="border-t border-neutral-200 mt-8 pt-6 text-center">
-            <p className="text-sm text-neutral-500">© 2024 ResumeOptimizer Pro. All rights reserved.</p>
+            <p className="text-sm text-neutral-500">© 2025 ResumeOptimizer Pro. All rights reserved.</p>
           </div>
         </div>
       </footer>
