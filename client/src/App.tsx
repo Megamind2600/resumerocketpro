@@ -49,7 +49,7 @@ function Router() {
       <footer className="bg-white border-t border-neutral-200 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid md:grid-cols-4 gap-8">
-            <div>
+            
               <div className="flex items-center mb-4 justify-between">
   <div className="flex items-center">
     <i className="fas fa-file-alt text-primary text-xl mr-2"></i>
@@ -63,7 +63,7 @@ function Router() {
   >
     File Intelligence
   </a>
-</div>
+
             
             <div>
               <h4 className="font-semibold text-neutral-800 mb-3"></h4>
