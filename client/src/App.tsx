@@ -49,21 +49,13 @@ function Router() {
       <footer className="bg-white border-t border-neutral-200 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid md:grid-cols-4 gap-8">
-            
-              <div className="flex items-center mb-4 justify-between">
-  <div className="flex items-center">
-    <i className="fas fa-file-alt text-primary text-xl mr-2"></i>
-    <span className="font-bold text-neutral-800">ResumeOptimizer Pro</span>
-  </div>
-  <a 
-    href="https://fileintelligence.onrender.com" 
-    target="_blank" 
-    rel="noopener noreferrer"
-    className="text-sm bg-primary text-white px-3 py-1.5 rounded hover:bg-primary-dark transition"
-  >
-    File Intelligence
-  </a>
-
+            <div>
+              <div className="flex items-center mb-4">
+                <i className="fas fa-file-alt text-primary text-xl mr-2"></i>
+                <span className="font-bold text-neutral-800">ResumeOptimizer Pro</span>
+              </div>
+              <p className="text-sm text-neutral-600">AI-powered resume optimization to help you land your dream job.</p>
+            </div>
             
             <div>
               <h4 className="font-semibold text-neutral-800 mb-3"></h4>
