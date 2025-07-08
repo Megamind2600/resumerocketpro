@@ -23,6 +23,14 @@ export default function Navigation() {
           </div>
         </div>
       </div>
+      <a
+  href="https://fileintelligence.onrender.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+>
+  File Intelligence
+</a>
     </nav>
   );
 }
