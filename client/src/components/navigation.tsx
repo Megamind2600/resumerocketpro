@@ -21,9 +21,7 @@ export default function Navigation() {
               <i className="fas fa-user-circle"></i>
             </button>
           </div>
-        </div>
-      </div>
-      <a
+          <a
   href="https://fileintelligence.onrender.com"
   target="_blank"
   rel="noopener noreferrer"
@@ -31,6 +29,8 @@ export default function Navigation() {
 >
   File Intelligence
 </a>
+        </div>
+      </div>
     </nav>
   );
 }
