@@ -24,6 +24,9 @@ export default function Optimize() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  // Promo code state
+  const [promoCode, setPromoCode] = useState("");
+
   useEffect(() => {
     const storedJobLinks = sessionStorage.getItem('jobLinks');
     if (storedJobLinks) {
@@ -97,6 +100,20 @@ export default function Optimize() {
   const handleContinueToPreview = () => {
     if (analysis) {
       setLocation('/preview');
+    }
+  };
+
+  // Promo code handler
+  const handlePromoSubmit = () => {
+    const validCode = "megamind2600"; // Your chosen code
+    if (promoCode === validCode) {
+      setLocation("/promo-success"); // Update if you want another route
+    } else {
+      toast({
+        title: "Invalid Promo Code",
+        description: "Please check the code and try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -200,6 +217,27 @@ export default function Optimize() {
                     </>
                   )}
                 </Button>
+
+                {/* Promo Code Section (directly below main button) */}
+                <div className="flex items-center space-x-3 mt-6">
+                  <Input
+                    id="promoCode"
+                    placeholder="Enter promo code"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    className="flex-1"
+                    disabled={isLoading}
+                  />
+                  <Button
+                    onClick={handlePromoSubmit}
+                    disabled={!promoCode || isLoading}
+                    className="bg-primary hover:bg-secondary"
+                  >
+                    Apply Promo
+                  </Button>
+                </div>
+                {/* End Promo Code Section */}
+
               </div>
             </CardContent>
           </Card>
