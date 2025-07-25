@@ -104,15 +104,6 @@ export default function PromoPreview() {
           <Button onClick={handleDownloadTxt} className="bg-primary hover:bg-secondary">
             Download as TXT
           </Button>
-          <Button onClick={handlePrintFullPage} className="bg-primary hover:bg-secondary">
-            Print / Save as PDF (Both)
-          </Button>
-          <Button onClick={handlePrintResume} className="bg-primary hover:bg-secondary">
-            Print Resume Only
-          </Button>
-          <Button onClick={handlePrintCoverLetter} className="bg-primary hover:bg-secondary">
-            Print Cover Letter Only
-          </Button>
         </div>
 
         {/* Resume Section */}
