@@ -8,6 +8,9 @@ export default function PromoPreview() {
   const [, setLocation] = useLocation();
   const [optimizationData, setOptimizationData] = useState<any>(null);
 
+  // State to control which section to print (none = full page)
+  const [printSection, setPrintSection] = useState<"none" | "resume" | "coverLetter">("none");
+
   useEffect(() => {
     const storedData = sessionStorage.getItem('optimizationData');
     if (storedData) {
@@ -17,15 +20,18 @@ export default function PromoPreview() {
     }
   }, [setLocation]);
 
-  if (!optimizationData) {
-    return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
-  }
+  // Clean up after printing to reset printSection
+  useEffect(() => {
+    function afterPrint() {
+      setPrintSection("none");
+    }
+    window.addEventListener("afterprint", afterPrint);
+    return () => {
+      window.removeEventListener("afterprint", afterPrint);
+    };
+  }, []);
 
-  // TXT export handler, preserves markdown markers in the txt file
+  // TXT export handler - unchanged, preserves markdown markers
   const handleDownloadTxt = () => {
     const resume = optimizationData.optimizedResume ?? "";
     const coverLetter = optimizationData.coverLetter ?? "";
@@ -49,10 +55,37 @@ export default function PromoPreview() {
     URL.revokeObjectURL(url);
   };
 
-  // Print (to PDF) handler — triggers browser print dialog
-  const handlePrint = () => {
-    window.print();
+  // Full page print - unchanged
+  const handlePrintFullPage = () => {
+    setPrintSection("none");
+    setTimeout(() => {
+      window.print();
+    }, 100);
   };
+
+  // Print resume only
+  const handlePrintResume = () => {
+    setPrintSection("resume");
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  };
+
+  // Print cover letter only
+  const handlePrintCoverLetter = () => {
+    setPrintSection("coverLetter");
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  };
+
+  if (!optimizationData) {
+    return (
+      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -66,19 +99,24 @@ export default function PromoPreview() {
           </p>
         </div>
 
-        {/* Action Bar */}
+        {/* Action Bar with existing and new buttons */}
         <div className="flex flex-col md:flex-row gap-4 justify-center mb-8 print:hidden">
           <Button onClick={handleDownloadTxt} className="bg-primary hover:bg-secondary">
             Download as TXT
           </Button>
-          <Button onClick={handlePrint} className="bg-primary hover:bg-secondary">
-            Print / Save as PDF
+          <Button onClick={handlePrintFullPage} className="bg-primary hover:bg-secondary">
+            Print / Save as PDF (Both)
+          </Button>
+          <Button onClick={handlePrintResume} className="bg-primary hover:bg-secondary">
+            Print Resume Only
+          </Button>
+          <Button onClick={handlePrintCoverLetter} className="bg-primary hover:bg-secondary">
+            Print Cover Letter Only
           </Button>
         </div>
 
-        {/* Dual Document Preview */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Optimized Resume */}
+        {/* Resume Section */}
+        <div className={`print-section resume-section ${printSection === "resume" ? "print-visible" : (printSection === "none" ? "" : "print-hide")}`}>
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4 text-primary">Optimized Resume</h2>
@@ -89,8 +127,10 @@ export default function PromoPreview() {
               </div>
             </CardContent>
           </Card>
+        </div>
 
-          {/* Cover Letter */}
+        {/* Cover Letter Section */}
+        <div className={`print-section cover-letter-section mt-8 ${printSection === "coverLetter" ? "print-visible" : (printSection === "none" ? "" : "print-hide")}`}>
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4 text-primary">Custom Cover Letter</h2>
@@ -110,26 +150,60 @@ export default function PromoPreview() {
           </span>
         </div>
 
-        {/* Optionally add @media print CSS to hide action bar etc. */}
         <style>
-        {`
-          @media print {
-            .print\\:hidden { display: none !important; }
-            body {
-              background: white !important;
+          {`
+            @media print {
+              /* Hide all content by default */
+              body * {
+                visibility: hidden;
+              }
+              /* Show full page if printSection is none */
+              .print-section, .print-section * {
+                visibility: visible;
+              }
+              /* If we're printing only resume */
+              body:not(.print-resume) .cover-letter-section,
+              body:not(.print-resume) .print-section:not(.resume-section) {
+                display: none !important;
+              }
+              /* If we're printing only cover letter */
+              body:not(.print-coverLetter) .resume-section,
+              body:not(.print-coverLetter) .print-section:not(.cover-letter-section) {
+                display: none !important;
+              }
+              /* Position the visible section for print */
+              .print-visible {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+              }
+              /* Remove background color for print */
+              body {
+                background: white !important;
+              }
+              .bg-neutral-50 {
+                background: white !important;
+              }
+              .prose {
+                color: black !important;
+              }
+              /* Hide the action buttons on print */
+              .print\\:hidden {
+                display: none !important;
+              }
             }
-            .bg-neutral-50 {
-              background: white !important;
+
+            /* Classes for handling hiding/showing sections */
+            .print-hide {
+              display: none !important;
             }
-            .prose {
-              color: black !important;
+
+            .selectable-text {
+              user-select: text !important;
+              -webkit-user-select: text !important;
             }
-          }
-          .selectable-text {
-            user-select: text !important;
-            -webkit-user-select: text !important;
-          }
-        `}
+          `}
         </style>
       </div>
     </div>
