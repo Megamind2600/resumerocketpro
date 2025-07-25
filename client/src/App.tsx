@@ -13,7 +13,7 @@ import Checkout from "@/pages/checkout";
 import Download from "@/pages/download";
 import NotFound from "@/pages/not-found";
 import { useLocation } from "wouter";
-import promo_success from "@/pages/promo-success";
+import PromoPreview from "@/pages/promo-success";
 
 
 function getStepFromPath(path: string): number {
@@ -44,7 +44,7 @@ function Router() {
         <Route path="/preview" component={Preview} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/download" component={Download} />
-        <Route path="/promo-success" component={promo_success} />
+        <Route path="/promo-success" component={PromoPreview} />
         <Route component={NotFound} />
       </Switch>
       
