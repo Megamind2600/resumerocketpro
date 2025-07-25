@@ -212,7 +212,7 @@ export async function generateOptimizedResume(resumeText: string, jobMatch: JobM
   console.log('📈 Match score:', jobMatch.matchScore);
 
   const prompt = `Create an optimized version of this resume based on the analysis. 
-Incorporate the recommended improvements while maintaining the candidate's authentic experience.
+Incorporate the recommended improvements while maintaining the candidate's authentic experience. Use appropriate formating, like align the name centrally, work expereince section, then education, skills, etc.
 
 Original Resume:
 """${resumeText}"""
