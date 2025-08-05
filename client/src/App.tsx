@@ -74,7 +74,7 @@ function Router() {
               <ul className="text-sm text-neutral-600 space-y-2">
                 <li><a href="#" className="hover:text-primary">email:</a></li>
                 <li><a href="#" className="hover:text-primary">ashuderkar@gmail.com</a></li>
-                <li><a href="#" className="hover:text-primary"></a></li>
+                <li><a href="#" className="hover:text-primary">follow Ashitosh Derkar on linkedin to get job updates</a></li>
               </ul>
             </div>
             
@@ -84,8 +84,8 @@ function Router() {
                 <a href="#" className="text-neutral-400 hover:text-primary">
                   <i className="fab fa-twitter"></i>
                 </a>
-                <a href="#" className="text-neutral-400 hover:text-primary">
-                  <i className="fab fa-linkedin"></i>
+                <a href="https://www.linkedin.com/company/resumeoptimiserpro" className="text-neutral-400 hover:text-primary">
+                  <i className="fab fa-linkedin">Follow on linkedin to get resume tips</i>
                 </a>
                 <a href="#" className="text-neutral-400 hover:text-primary">
                   <i className="fab fa-facebook"></i>
