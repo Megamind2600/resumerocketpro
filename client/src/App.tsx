@@ -72,8 +72,7 @@ function Router() {
             <div>
               <h4 className="font-semibold text-neutral-800 mb-3">Support</h4>
               <ul className="text-sm text-neutral-600 space-y-2">
-                <li><a href="#" className="hover:text-primary">email:</a></li>
-                <li><a href="#" className="hover:text-primary">ashuderkar@gmail.com</a></li>
+                <li><a href="#" className="hover:text-primary">email:ashuderkar@gmail.com</a></li>
                 <li><a href="https://www.linkedin.com/in/ashitosh-derkar" className="hover:text-primary">follow Ashitosh Derkar on linkedin to get job updates</a></li>
               </ul>
             </div>
