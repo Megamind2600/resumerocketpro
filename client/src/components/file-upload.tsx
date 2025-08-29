@@ -17,6 +17,8 @@ export default function FileUpload({ onFileUploaded, isLoading }: FileUploadProp
   const [email, setEmail] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const [localLoading, setLocalLoading] = useState(false); 
+
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -79,6 +81,8 @@ export default function FileUpload({ onFileUploaded, isLoading }: FileUploadProp
       return;
     }
 
+    setLocalLoading(true);
+
     const formData = new FormData();
     formData.append('resume', selectedFile);
     formData.append('email', email);
@@ -106,6 +110,8 @@ export default function FileUpload({ onFileUploaded, isLoading }: FileUploadProp
         description: "Please try again or contact support.",
         variant: "destructive",
       });
+    } finally {
+    setLocalLoading(false);
     }
   };
 
@@ -212,7 +218,7 @@ export default function FileUpload({ onFileUploaded, isLoading }: FileUploadProp
             disabled={!selectedFile || !email || isLoading}
             className="w-full bg-primary hover:bg-secondary"
           >
-            {isLoading ? (
+            {localLoading || isLoading ? (
               <>
                 <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
                 Analyzing Resume with AI...
