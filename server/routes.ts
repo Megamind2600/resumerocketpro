@@ -182,7 +182,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/create-payment-intent", async (req, res) => {
     try {
       const { optimizationId } = req.body;
-      const amount = 999; // $9.99 in cents
+      const amount = 99; // $0.99 in cents
       
       const optimization = await storage.getJobOptimization(optimizationId);
       if (!optimization) {
