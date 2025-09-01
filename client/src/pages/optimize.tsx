@@ -105,8 +105,8 @@ export default function Optimize() {
 
   // Promo code handler
   const handlePromoSubmit = () => {
-    const validCode = "megamind2600"; // Your chosen code
-    if (promoCode === validCode) {
+    const validCodes = ["megamind2600", "qazxswedc", "vfrtgbnhy", "ujm,kiol."]; // Your chosen code
+    if (validCodes.includes(promoCode)) {
       setLocation("/promo-success"); // Update if you want another route
     } else {
       toast({
